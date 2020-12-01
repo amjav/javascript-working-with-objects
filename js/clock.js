@@ -75,23 +75,50 @@
     //option 2: String Object Manipulation
     //manipulating the string value aquired from toTimeString();
 
-    var updateTime = function(){
-        var myDate = new Date();
-        myNode.innerHTML = myDate.toTimeString().substr(0, 8);
-    }
-
-    updateTime();
-    setInterval(updateTime, 1000);
+    
 
     //analogue clock
 
     //change clock hand colour
-    document.getElementById('hrHand').style.backgroundColor = '#0f0';
+    document.getElementById('hrHand').style.backgroundColor = '#0ff';
 
-    var rotSeconds = (seconds * 6) - 90;
+    //change the rotation using the transform property
+    //document.getElementById('hrHand').style.transform = "rotate(145deg)";
 
+
+    
     //apply rotation to the div#secondHand 
-    document.getElementById('secondHand').style.transform =
-     'rotate('+rotSeconds+'deg)';
 
+    
+
+
+    var updateTime = function(){
+            var myDate = new Date();
+
+            //create variables for the rotations
+            //360 divided by 60 is the degree for each second in a clock
+            //-90 to start from 12 not from rest position
+            var rotSeconds = (myDate.getSeconds() * 6) - 90;
+            var rotMinutes  = (myDate.getMinutes() * 6) - 90;
+            //add a fraction of an hour, before mult by 30 add a fraction of an hour
+            var rotHours = ((myDate.getHours() + myDate.getMinutes()/60) * 30) - 90;
+
+
+            //get secondHandId apply transform property ehivh will rotate 
+            //the hand every second
+            document.getElementById('secondHand').style.transform =
+                'rotate('+rotSeconds+'deg)';
+
+            document.getElementById('minHand').style.transform =
+                'rotate('+rotMinutes+'deg)';  
+                
+            document.getElementById('hrHand').style.transform =
+                'rotate('+rotHours+'deg)';    
+                
+            myNode.innerHTML = myDate.toTimeString().substr(0, 8);
+    }
+
+        updateTime();
+        setInterval(updateTime, 1000);
+        
 })();
